@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validador de Tarjeta de Crédito y Algoritmo de Luhn</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Validador de Tarjeta de Crédito y Algoritmo de Luhn</h1>
+
+        <h2>El Algoritmo de Luhn</h2>
+        <p>El Algoritmo de Luhn, también conocido como "algoritmo de módulo 10" o "fórmula de Luhn", fue creado por Hans
+            Peter Luhn, un científico de IBM, en la década de 1950. Es utilizado para validar una variedad de números de
+            identificación, incluyendo números de tarjetas de crédito.</p>
+
+        <h2>Características principales:</h2>
+        <ul>
+            <li>Propósito: Validar números de identificación como tarjetas de crédito, números de seguro social
+                canadienses, IMEI de teléfonos móviles, etc.</li>
+            <li>Tipo: Algoritmo de suma de verificación (checksum).</li>
+            <li>Complejidad: Relativamente simple y fácil de implementar.</li>
+        </ul>
+
+        <h2>Funcionamiento del algoritmo:</h2>
+        <ol>
+            <li>Se empieza desde el dígito más a la derecha (excluyendo el dígito de verificación) y se mueve hacia la
+                izquierda.</li>
+            <li>Se duplica el valor de cada segundo dígito.</li>
+            <li>Si el resultado de la duplicación es mayor que 9, se suman los dígitos del resultado.</li>
+            <li>Se suman todos los dígitos.</li>
+            <li>Si el total es divisible por 10, el número es válido según el algoritmo de Luhn.</li>
+        </ol>
+
+        <h2>Implementación en JavaScript:</h2>
+        <div class="code">
+            function esValido(numero) {
+            let suma = 0;
+            let doble = false;
+            for (let i = numero.length - 1; i >= 0; i--) {
+            let digito = parseInt(numero.charAt(i), 10);
+            if (doble) {
+            if ((digito *= 2) > 9) digito -= 9;
+            }
+            suma += digito;
+            doble = !doble;
+            }
+            return (suma % 10) == 0;
+            }
+        </div>
+
+
+        <h2>Prueba de escritorio explicada:</h2>
+        Ejemplo: 4532015112830366<br>
+
+        <b>Verificación paso a paso:</b><br>
+
+        <ol>
+            <li>Invertir el orden de los dígitos:
+                <br>6630381115102354
+            </li>
+
+            <li>Multiplicar por dos cada segundo dígito, comenzando desde el primer dígito:
+                <br>6 (6*2) 3 (3*2) 8 (8*2) 1 (1*2) 1 (5*2) 0 (1*2) 2 (2*2) 5 (3*2) 4
+            </li>
+
+            <li>Realizar las multiplicaciones:
+                <br>6 12 3 6 8 16 1 2 1 10 0 2 2 4 5 6 4
+            </li>
+
+            <li>Sumar los dígitos de los números que resultaron en dos dígitos:
+                <br>6 (1+2=3) 3 6 8 (1+6=7) 1 2 1 (1+0=1) 0 2 2 4 5 6 4
+            </li>
+
+            <li>Ahora tenemos la siguiente secuencia de números:
+                <br>6 3 3 6 8 7 1 2 1 1 0 2 2 4 5 6 4
+            </li>
+
+            <li>Sumar todos estos dígitos:
+                <br>6+3+3+6+8+7+1+2+1+1+0+2+2+4+5+6+4 = 60
+            </li>
+
+            <li>Verificar si el resultado es divisible por 10 (termina en 0):
+                <br>60 es divisible por 10, por lo tanto, el número 4532015112830366 es válido según el algoritmo de
+                Luhn.
+            </li>
+        </ol>
+
+
+
+
+
+        <h2>Prueba el validador:</h2>
+        <div class="validator">
+            <input type="text" id="numeroTarjeta" placeholder="Ingrese el número de tarjeta">
+            <button onclick="validarTarjeta()">Validar</button>
+            <div id="resultado"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
